@@ -11,7 +11,7 @@ Arduino Nano
 
 External Libraries:
 - [MCP_can - Coryjfowler](https://github.com/coryjfowler/MCP_CAN_lib)
-- [Max6675 - Adafruit](https://github.com/adafruit/MAX6675-library)
+- [Max6675 - SiriUli(Adafruit Fork)](https://github.com/SirUli/MAX6675)
 
 ## Diagrams
 
