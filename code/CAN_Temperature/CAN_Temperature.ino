@@ -14,6 +14,8 @@ MAX6675 thermocouple(thermoCLK, thermoCS, thermoDO);
 uint8_t temperatureCelcius =0;
 uint8_t tempArray[4];
 
+int tempOffset = -7;
+
 MCP_CAN CAN0(10);     // Set CS to pin 10
 
 void setup()
@@ -38,7 +40,7 @@ byte data[8] = {0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07};
 
 void loop()
 {
-  temperatureCelcius =uint8_t(thermocouple.readCelsius());
+  temperatureCelcius =(uint8_t(thermocouple.readCelsius())+tempOffset);
   Serial.print("C = "); 
   Serial.println(temperatureCelcius);
   Serial.println(thermocouple.readCelsius());
