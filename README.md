@@ -1,5 +1,9 @@
 # Arduino-CAN-Bus-temperature-sensor-
-Arduino with a can transceiver and temperature probe. that is all.
+Arduino with a can transceiver and k type temperature probe. that is all.
+
+For use with cyclinder head temperature (CHT) Exhaust gas temperatur (EGT) Water/Cooland etc. 
+
+Galvanic isolation so sensor can be mounted to vehicle ground without any ground loop issues.
 
 ## Parts:
 
