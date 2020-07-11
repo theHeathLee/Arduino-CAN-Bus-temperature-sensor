@@ -1,4 +1,4 @@
-# Arduino-CAN-Bus-temperature-sensor-
+# Arduino CAN Bus temperature sensor
 Arduino with a can transceiver and k type temperature probe. that is all.
 
 For use with cyclinder head temperature (CHT) Exhaust gas temperatur (EGT) Water/Coolant etc. 
@@ -23,6 +23,8 @@ External Libraries:
 
 
 ## CAN Matrix
+
+Baud: 250Kbs
 
 | Value       | ID        |DLC   | Byte Pos.|
 | ------------- |:-----:  |----: |       --:|
