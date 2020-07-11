@@ -13,6 +13,10 @@ Arduino Nano
 
 - MCP2515
 
+- ADUM5401
+
+- [3D Printed Enclosure](https://www.thingiverse.com/thing:4293410)
+
 External Libraries:
 - [MCP_can - Coryjfowler](https://github.com/coryjfowler/MCP_CAN_lib)
 - [Max6675 - SiriUli(Adafruit Fork)](https://github.com/SirUli/MAX6675)
