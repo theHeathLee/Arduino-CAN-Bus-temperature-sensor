@@ -23,7 +23,7 @@ Arduino Nano
 
 - [x2 JST JWPF Sockets](https://www.jst-mfg.com/product/detail_e.php?series=151)
 
--x4 10x5mm neodymium magnets
+- x4 10x5mm neodymium magnets
 
 External Libraries:
 - [MCP_can - Coryjfowler](https://github.com/coryjfowler/MCP_CAN_lib)
