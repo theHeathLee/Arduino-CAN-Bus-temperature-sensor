@@ -9,7 +9,7 @@ int thermoCS = 5;
 int thermoCLK = 6;
 MAX6675 thermocouple(thermoCLK, thermoCS, thermoDO);
 
-uint8_t temperatureCelcius = 0;
+int16_t temperatureCelcius = 0;
 
 
 MCP_CAN CAN0(10);     // Set CS to pin 10
@@ -33,14 +33,14 @@ void setup()
 
 void loop()
 {
-  temperatureCelcius = uint8_t(thermocouple.readCelsius()*tempScaler);
+  temperatureCelcius = int16_t(thermocouple.readCelsius()*tempScaler);
   Serial.print("C = "); 
   Serial.println(temperatureCelcius);
   Serial.println(thermocouple.readCelsius());
   delay(500);
 
-  byte data[8] = {temperatureCelcius, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff};
-
+  byte data[8] = {temperatureCelcius >> 8 , temperatureCelcius & 0x00FF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF};
+ 
   // send data:  ID = 0x100, Standard CAN Frame, Data length = 8 bytes, 'data' = array of data bytes to send
   byte sndStat = CAN0.sendMsgBuf(0x100, 0, 8, data);
   if(sndStat == CAN_OK){
