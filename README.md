@@ -21,6 +21,10 @@ Arduino Nano
 
 - [3D Printed Enclosure](https://www.thingiverse.com/thing:4293410)
 
+- [x2 JST JWPF Sockets](https://www.jst-mfg.com/product/detail_e.php?series=151)
+
+-x4 10x5mm neodymium magnets
+
 External Libraries:
 - [MCP_can - Coryjfowler](https://github.com/coryjfowler/MCP_CAN_lib)
 - [Max6675 - SiriUli(Adafruit Fork)](https://github.com/SirUli/MAX6675)
