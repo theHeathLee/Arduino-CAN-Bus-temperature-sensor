@@ -17,6 +17,8 @@ Arduino Nano
 
 - ADUM5401
 
+- x2 1μF Capacitors
+
 - [3D Printed Enclosure](https://www.thingiverse.com/thing:4293410)
 
 External Libraries:
