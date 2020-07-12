@@ -1,6 +1,8 @@
 # Arduino CAN Bus temperature sensor
 Arduino with a can transceiver and k type temperature probe. that is all.
 
+Range 0°C to +1024°C
+
 For use with cyclinder head temperature (CHT) Exhaust gas temperatur (EGT) Water/Coolant etc. 
 
 Galvanic isolation so sensor can be mounted to vehicle ground without any ground loop issues.
