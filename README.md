@@ -39,6 +39,6 @@ Baud: 250Kbs
 
 ## Diagrams
 
-![alt tag](https://github.com/theHeathLee/Arduino-CAN-Bus-temperature-sensor-/blob/master/Pictures/frSchematicWithIsolator.png?raw=true "Connected oldtimer banner")
+![alt tag](https://github.com/theHeathLee/Arduino-CAN-Bus-temperature-sensor-/blob/master/Pictures/frSchematicWithIsolatorFinal.png?raw=true "Connected oldtimer banner")
 
 
