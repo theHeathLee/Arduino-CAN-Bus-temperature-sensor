@@ -1,18 +1,16 @@
-// CAN Send Example
-//
-
 #include <mcp_can.h>
 #include <SPI.h>
-
 #include "max6675.h"
+
+#define tempScaler .825
 
 int thermoDO = 4;
 int thermoCS = 5;
 int thermoCLK = 6;
 MAX6675 thermocouple(thermoCLK, thermoCS, thermoDO);
 
-uint8_t temperatureCelcius =0;
-int tempOffset = -7;
+uint8_t temperatureCelcius = 0;
+
 
 MCP_CAN CAN0(10);     // Set CS to pin 10
 
@@ -21,14 +19,11 @@ void setup()
 
   Serial.begin(9600);
   
-
-  // Initialize MCP2515 running at 16MHz with a baudrate of 500kb/s and the masks and filters disabled.
+  // Initialize MCP2515 running at 8MHz with a baudrate of 250kb/s and the masks and filters disabled.
   if(CAN0.begin(MCP_ANY, CAN_250KBPS, MCP_8MHZ) == CAN_OK) Serial.println("MCP2515 Initialized Successfully!");
   else Serial.println("Error Initializing MCP2515...");
-
   CAN0.setMode(MCP_NORMAL);   // Change to normal mode to allow messages to be transmitted
-
-  Serial.println("MAX6675 test");
+  
   // wait for MAX chip to stabilize
   delay(500);
 
@@ -38,12 +33,11 @@ void setup()
 
 void loop()
 {
-  temperatureCelcius =(uint8_t(thermocouple.readCelsius())+tempOffset);
+  temperatureCelcius = uint8_t(thermocouple.readCelsius()*tempScaler);
   Serial.print("C = "); 
   Serial.println(temperatureCelcius);
   Serial.println(thermocouple.readCelsius());
   delay(500);
-
 
   byte data[8] = {temperatureCelcius, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff};
 
@@ -54,10 +48,7 @@ void loop()
   } else {
     Serial.println("Error Sending Message...");
   }
-  delay(500);   // send data per 100ms
-  
-
-
+  delay(500); 
   
 }
 
