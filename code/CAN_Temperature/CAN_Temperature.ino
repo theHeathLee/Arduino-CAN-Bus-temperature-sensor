@@ -14,6 +14,22 @@ int16_t temperatureCelcius = 0;
 
 MCP_CAN CAN0(10);     // Set CS to pin 10
 
+typedef struct {
+  union {
+    uint8_t      Data8[8];      
+    uint16_t     Data16[4];       
+    uint32_t     Data32[2];        
+    uint64_t     Data64;       
+    int8_t       Data8s[8];       
+    int16_t      Data16s[4];     
+    int32_t      Data32s[2];      
+    float        DataFlt[2];      
+    double       DataDbl;       
+  }Data;
+} CANMsg_t;
+
+CANMsg_t TxMsg;
+
 void setup()
 {
 
@@ -26,7 +42,6 @@ void setup()
   
   // wait for MAX chip to stabilize
   delay(500);
-
 }
 
 
@@ -39,7 +54,10 @@ void loop()
   Serial.println(thermocouple.readCelsius());
   delay(500);
 
-  byte data[8] = {temperatureCelcius >> 8 , temperatureCelcius & 0x00FF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF};
+  //byte data[8] = {temperatureCelcius >> 8 , temperatureCelcius & 0x00FF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF};
+  TxMsg.Data.Data16s[0] = temperatureCelcius;
+  byte data[8] = {TxMsg.Data.Data8[0], TxMsg.Data.Data8[1], TxMsg.Data.Data8[2], TxMsg.Data.Data8[3], TxMsg.Data.Data8[4], TxMsg.Data.Data8[5], TxMsg.Data.Data8[6], TxMsg.Data.Data8[7]};
+
  
   // send data:  ID = 0x100, Standard CAN Frame, Data length = 8 bytes, 'data' = array of data bytes to send
   byte sndStat = CAN0.sendMsgBuf(0x100, 0, 8, data);
