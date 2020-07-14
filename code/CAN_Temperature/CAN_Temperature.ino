@@ -14,8 +14,7 @@ int16_t temperatureCelcius = 0;
 
 MCP_CAN CAN0(10);     // Set CS to pin 10
 
-typedef struct {
-  union {
+typedef union {
     uint8_t      Data8[8];      
     uint16_t     Data16[4];       
     uint32_t     Data32[2];        
@@ -25,7 +24,6 @@ typedef struct {
     int32_t      Data32s[2];      
     float        DataFlt[2];      
     double       DataDbl;       
-  }Data;
 } CANMsg_t;
 
 CANMsg_t TxMsg;
@@ -55,8 +53,8 @@ void loop()
   delay(500);
 
   //byte data[8] = {temperatureCelcius >> 8 , temperatureCelcius & 0x00FF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF};
-  TxMsg.Data.Data16s[0] = temperatureCelcius;
-  byte data[8] = {TxMsg.Data.Data8[0], TxMsg.Data.Data8[1], TxMsg.Data.Data8[2], TxMsg.Data.Data8[3], TxMsg.Data.Data8[4], TxMsg.Data.Data8[5], TxMsg.Data.Data8[6], TxMsg.Data.Data8[7]};
+  TxMsg.Data16s[0] = temperatureCelcius;
+  byte data[8] = {TxMsg.Data8[0], TxMsg.Data8[1], TxMsg.Data8[2], TxMsg.Data8[3], TxMsg.Data8[4], TxMsg.Data8[5], TxMsg.Data8[6], TxMsg.Data8[7]};
 
  
   // send data:  ID = 0x100, Standard CAN Frame, Data length = 8 bytes, 'data' = array of data bytes to send
