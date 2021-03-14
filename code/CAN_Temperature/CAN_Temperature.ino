@@ -3,30 +3,19 @@
 #include "max6675.h"
 
 #define tempScaler .825
+#define oilPressureResistanceCal .598
 
 int thermoDO = 4;
 int thermoCS = 5;
 int thermoCLK = 6;
 MAX6675 thermocouple(thermoCLK, thermoCS, thermoDO);
+int oilSensorPin = A0;
 
 int16_t temperatureCelcius = 0;
+uint8_t oilPressure = 0;
 
 
 MCP_CAN CAN0(10);     // Set CS to pin 10
-
-typedef union {
-    uint8_t      Data8[8];      
-    uint16_t     Data16[4];       
-    uint32_t     Data32[2];        
-    uint64_t     Data64;       
-    int8_t       Data8s[8];       
-    int16_t      Data16s[4];     
-    int32_t      Data32s[2];      
-    float        DataFlt[2];      
-    double       DataDbl;       
-} CANMsg_t;
-
-CANMsg_t TxMsg;
 
 void setup()
 {
@@ -40,6 +29,7 @@ void setup()
   
   // wait for MAX chip to stabilize
   delay(500);
+
 }
 
 
@@ -47,24 +37,25 @@ void setup()
 void loop()
 {
   temperatureCelcius = int16_t(thermocouple.readCelsius()*tempScaler);
+  oilPressure = analogRead(oilSensorPin)*oilPressureResistanceCal;
   Serial.print("C = "); 
-  Serial.println(temperatureCelcius);
-  Serial.println(thermocouple.readCelsius());
-  delay(500);
+  Serial.print(temperatureCelcius);
+  Serial.print(thermocouple.readCelsius());
+  Serial.print("   ");
+  Serial.print("Oil Pressure: ");
+  Serial.println(oilPressure);
+  delay(100);
 
-  //byte data[8] = {temperatureCelcius >> 8 , temperatureCelcius & 0x00FF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF};
-  TxMsg.Data16s[0] = temperatureCelcius;
-  byte data[8] = {TxMsg.Data8[0], TxMsg.Data8[1], TxMsg.Data8[2], TxMsg.Data8[3], TxMsg.Data8[4], TxMsg.Data8[5], TxMsg.Data8[6], TxMsg.Data8[7]};
-
+  byte data[8] = {temperatureCelcius >> 8 , temperatureCelcius & 0x00FF, oilPressure, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF};
  
   // send data:  ID = 0x100, Standard CAN Frame, Data length = 8 bytes, 'data' = array of data bytes to send
   byte sndStat = CAN0.sendMsgBuf(0x100, 0, 8, data);
   if(sndStat == CAN_OK){
-    Serial.println("Message Sent Successfully!");
+    //Serial.println("Message Sent Successfully!");
   } else {
-    Serial.println("Error Sending Message...");
+    //Serial.println("Error Sending Message...");
   }
-  delay(500); 
+  delay(100); 
   
 }
 
