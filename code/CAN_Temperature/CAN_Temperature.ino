@@ -2,7 +2,8 @@
 #include <SPI.h>
 #include "max6675.h"
 
-#define tempScaler .825
+// old temp was 28 at room temperature of 21 and 100 at boiling water
+#define tempScaler 1//.825
 #define oilPressureResistanceCal .598
 
 int thermoDO = 4;
@@ -13,6 +14,7 @@ int oilSensorPin = A0;
 
 int16_t temperatureCelcius = 0;
 uint8_t oilPressure = 0;
+uint8_t oilPressureraw = 0;
 
 
 MCP_CAN CAN0(10);     // Set CS to pin 10
@@ -36,17 +38,19 @@ void setup()
 
 void loop()
 {
-  temperatureCelcius = int16_t(thermocouple.readCelsius()*tempScaler);
-  oilPressure = analogRead(oilSensorPin)*oilPressureResistanceCal;
+  temperatureCelcius = int16_t(thermocouple.readCelsius());
+  oilPressureraw = analogRead(oilSensorPin)*oilPressureResistanceCal;
+  //convert from resistance range to psi range
+  oilPressure = map(oilPressureraw, 0, 184, 0, 72);
   Serial.print("C = "); 
   Serial.print(temperatureCelcius);
-  Serial.print(thermocouple.readCelsius());
+  //Serial.print(thermocouple.readCelsius());
   Serial.print("   ");
   Serial.print("Oil Pressure: ");
   Serial.println(oilPressure);
   delay(100);
 
-  byte data[8] = {temperatureCelcius >> 8 , temperatureCelcius & 0x00FF, oilPressure, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF};
+  byte data[8] = {temperatureCelcius & 0x00FF, oilPressure, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF};
  
   // send data:  ID = 0x100, Standard CAN Frame, Data length = 8 bytes, 'data' = array of data bytes to send
   byte sndStat = CAN0.sendMsgBuf(0x100, 0, 8, data);
