@@ -1,0 +1,22 @@
+VERSION ""
+
+NS_ :
+
+BS_:
+
+BU_: Arduino
+
+BO_ 256 SensorData: 8 Arduino
+ SG_ Temperature  :  0|16@1+ (1,0) [-32768|32767] "degC"   Vector__XXX
+ SG_ EngineRPM    : 16|16@1+ (1,0) [0|32767]      "RPM"    Vector__XXX
+ SG_ WheelRPM     : 32|16@1+ (1,0) [0|32767]      "RPM"    Vector__XXX
+ SG_ OilPressure  : 48|8@1+  (1,0) [0|255]        "PSI"    Vector__XXX
+
+BA_DEF_ SG_ "SystemSignalLongSymbol" STRING;
+
+COMMENT_ BO_ 256 "Engine sensor data from Arduino (250 kbps, 8 MHz oscillator). ID 0x100.";
+COMMENT_ SG_ 256 Temperature  "Thermocouple temperature. Signed, 1 degC/bit.";
+COMMENT_ SG_ 256 EngineRPM    "Engine RPM from ignition coil via Timer1 Input Capture (pin 8). 4 pulses/rev.";
+COMMENT_ SG_ 256 WheelRPM     "Wheel RPM from Hall effect sensor via INT0 (pin 2). 6 pulses/rev.";
+COMMENT_ SG_ 256 OilPressure  "Oil pressure in PSI. Mapped from sensor resistance (0-184 ohm -> 0-72 PSI).";
+
